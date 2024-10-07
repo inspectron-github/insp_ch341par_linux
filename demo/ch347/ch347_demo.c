@@ -877,7 +877,7 @@ int main(int argc, char *argv[])
 		ret = CH347_I2C_Init();
 		if (!ret) {
 			printf("Failed to init CH347 I2C.\n");
-			return;
+			return -1;
 		}
 		printf("CH347 I2C interface init succeed.\n");
 		break;
