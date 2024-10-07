@@ -874,72 +874,12 @@ int main(int argc, char *argv[])
 		break;
 	case FUNC_SPI_I2C_GPIO:
 	case FUNC_SPI_I2C_JTAG_GPIO:
-		while (1) {
-			printf("\npress f to operate spi flash, e to operate eeprom,\n"
-			       "a to get gpio status, g to gpio output test, j to operate jtag interface,\n"
-			       "s to enable spi slave mode, o to disable spi slave mode,\n"
-			       "i to enable interrupt, d to disable interrupt, q to quit.\n");
-
-			scanf("%c", &choice);
-			while ((ch = getchar()) != EOF && ch != '\n')
-				;
-			if (choice == 'q')
-				break;
-
-			switch (choice) {
-			case 'f':
-				printf("FLASH Test begin.\n");
-				ch34x_demo_flash_operate();
-				break;
-			case 'e':
-				printf("EEPROM Test begin.\n");
-				ch34x_demo_eeprom_operate();
-				break;
-			case 'a':
-				printf("GPIO Input Test Begin.\n");
-				ch34x_demo_gpio_input_operate();
-				break;
-			case 'g':
-				printf("GPIO Output Test Begin.\n");
-				ch34x_demo_gpio_output_operate();
-				break;
-			case 'i':
-				printf("IRQ Test Begin.");
-				ch34x_demo_irq_operate(true);
-				break;
-			case 'd':
-				printf("IRQ Test Over.\n");
-				ch34x_demo_irq_operate(false);
-				break;
-			case 'j':
-				if (ch347device.functype == FUNC_SPI_I2C_JTAG_GPIO) {
-					printf("JTAG Test begin.\n");
-					ch34x_demo_jtag_operate();
-				} else {
-					printf("Chip is not CH347F.\n");
-				}
-				break;
-			case 's':
-				if (ch347device.chiptype == CHIP_CH347F) {
-					printf("SPI Slave Test Begin.\n");
-					ch34x_demo_spi_slave_operate(true);
-				} else {
-					printf("Chip is not CH347F.\n");
-				}
-				break;
-			case 'o':
-				if (ch347device.chiptype == CHIP_CH347F) {
-					printf("SPI Slave Test Over.\n");
-					ch34x_demo_spi_slave_operate(false);
-				} else {
-					printf("Chip is not CH347F.\n");
-				}
-				break;
-			default:
-				printf("Bad choice, please input again.\n");
-				break;
-			}
+		ret = CH347_I2C_Init();
+		if (!ret) {
+			printf("Failed to init CH347 I2C.\n");
+			return;
 		}
+		printf("CH347 I2C interface init succeed.\n");
 		break;
 	case FUNC_JTAG_GPIO:
 		while (1) {
